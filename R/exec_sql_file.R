@@ -24,8 +24,8 @@ exec_sql_file <- function(sql_file, verbose = TRUE) {
 
     queries <- parse_sql_queries(post_tmp_sql_file)
 
-    # file.remove(pre_tmp_sql_file)
-    # file.remove(post_tmp_sql_file)
+    file.remove(pre_tmp_sql_file)
+    file.remove(post_tmp_sql_file)
 
     rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
     secure_flush_for_insertions()
@@ -77,7 +77,7 @@ send_query <- function(query) {
 present_query <- function(title, query) {
   cli::cli_h1(title)
   dashed_line()
-  cli::cli_code(query, language = "SQL")
+  cli::cli_code(query, language = "sql")
   dashed_line()
 }
 
@@ -170,7 +170,7 @@ line <- function() line_of_char("_")
 dashed_line <- function() line_of_char("-")
 
 underline_3_digits_group <- function(nb) {
-  nbs <- str_split(nb, "") %>% unlist
+  nbs <- stringr::str_split(nb, "") %>% unlist
   idx <- which(trunc((seq_along(nbs) - length(nbs)) / 3) %% 2 == 1)
   nbs[idx] <- crayon::underline(nbs[idx])
   stringr::str_c(nbs, collapse = "")
