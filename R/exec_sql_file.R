@@ -64,7 +64,8 @@ send_query <- function(query) {
   if(info$completed) {
     cli::cli_alert_info("-- COMPLÉTÉ --\n")
     cli::cli_alert_success(
-    "{underline_3_digits_group(info$rowsAffected)} ligne{?s} affecté{?s}.")
+    "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s).")
+    NULL
   }
   else {
     cli::cli_h3("-- VALEUR RETOURNÉE --\n")
@@ -150,7 +151,7 @@ present_results <- function(query_results) {
     print(query_results)
     cat("-------------------------------------\n")
     cli::cli_alert_success(
-      "Le fichier a produit {length(query_results)} resultat{?s}.")
+      "Le fichier a produit {length(query_results)} résultat{?s}.")
     cli::cli_alert_info(
       "Vous pouvez acceder aux résultats avec : `sndsmart::last_results()`.")
   } else {
