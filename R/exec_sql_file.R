@@ -2,7 +2,8 @@
 exec_sql_file <- function(sql_file, verbose = TRUE) {
 
   if(is.null(the$connection)) {
-    warning("No connection has been set, you need to call `sndstyle::connect()`")
+    cli::cli_alert_warning("No connection has been set.")
+    cli::cli_alert_info("you need to call `sndsmart::connect()`")
     return(invisible())
   }
 
@@ -23,8 +24,8 @@ exec_sql_file <- function(sql_file, verbose = TRUE) {
 
     queries <- parse_sql_queries(post_tmp_sql_file)
 
-    file.remove(pre_tmp_sql_file)
-    file.remove(post_tmp_sql_file)
+    # file.remove(pre_tmp_sql_file)
+    # file.remove(post_tmp_sql_file)
 
     rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
     secure_flush_for_insertions()
@@ -55,15 +56,18 @@ send_query <- function(query) {
     error = function(e)  cat(e$message)
   )
   duration <- difftime(Sys.time(), begin)
-  cat("Execution time:", format(duration), "\n")
-  if(is.null(rs)) { cat("-- FAILED --\n"); line(); return() }
+  cli::cli_h3("Temps d'exécution : {format(duration)}.")
+  if(is.null(rs)) {
+    cli::cli_alert_warning("-- ÉCHEC --\n"); line(); return()
+  }
   info <- ROracle::dbGetInfo(rs)
   if(info$completed) {
-    cat("-- COMPLETED --\n")
-    underline_3_digits_group(info$rowsAffected); cat(" rows affected.\n")
+    cli::cli_alert_info("-- COMPLÉTÉ --\n")
+    cli::cli_alert_success(
+    "{underline_3_digits_group(info$rowsAffected)} ligne{?s} affecté{?s}.")
   }
   else {
-    cat("-- RETURNED VALUE --\n")
+    cli::cli_h3("-- VALEUR RETOURNÉE --\n")
     f <- tibble::as_tibble(ROracle::fetch(rs))
     print(f)
     return(f)
@@ -71,8 +75,10 @@ send_query <- function(query) {
 }
 
 present_query <- function(title, query) {
-  cat(title); cat("\n"); dashed_line()
-  cat(query); cat("\n"); dashed_line()
+  cli::cli_h1(title)
+  dashed_line()
+  cli::cli_code(query, language = "SQL")
+  dashed_line()
 }
 
 treat_query <- function(query, title) {
@@ -102,7 +108,7 @@ parse_sql_queries <- function(sql_file) {
     )) -> list_needs_numbering
 
   names(list_needs_numbering) <-
-    stringr::str_c("Query #", seq_along(list_needs_numbering), ":")
+    stringr::str_c("Requête #", seq_along(list_needs_numbering), ":")
   list_needs_numbering
 }
 
@@ -118,7 +124,7 @@ secure_flush_for_insertions <- function() {
 prepend_m4_setup_and_macros <- function(sql_file, pre_tmp_sql_file) {
 
   m4_setup <- "changequote(\\`[\\', \\`]\\')"
-  macro_directory <-system.file("extdata", "macros", package = "sndstyle")
+  macro_directory <-system.file("extdata", "macros", package = "sndsmart")
   macro_files <- list.files(macro_directory, pattern = "*.m4")
   macro_paths <- paste0(macro_directory, "/", macro_files)
   include_strings <- paste0("include(", macro_paths, ")", collapse = " \\n")
@@ -137,23 +143,18 @@ apply_m4_to_file <- function(pre_tmp_sql_file, post_tmp_sql_file) {
 present_results <- function(query_results) {
 
   if (length(query_results) > 0) {
-    names(query_results) <- stringr::str_c("Result #",
+    names(query_results) <- stringr::str_c("Résultat #",
                                            seq_along(query_results))
 
-    cat("---------------------------------------\n")
-    cat("|                        _ _          |\n")
-    cat("|    _ __ ___  ___ _   _| | |_ ___    |\n")
-    cat("|   | '__/ _ \\/ __| | | | | __/ __|   |\n")
-    cat("|   | | |  __/\\__ \\ |_| | | |_\\__ \\   |\n")
-    cat("|   |_|  \\___||___/\\__,_|_|\\__|___/   |\n")
-    cat("|                                     |\n")
-    cat("---------------------------------------\n")
+    cli::cli_h1("Liste des résultats")
     print(query_results)
     cat("-------------------------------------\n")
-    cat(stringr::str_c("The file has produced ", length(query_results), " result(s).\n"))
-    cat("Access results by calling `last_results()`.")
+    cli::cli_alert_success(
+      "Le fichier a produit {length(query_results)} resultat{?s}.")
+    cli::cli_alert_info(
+      "Vous pouvez acceder aux résultats avec : `sndsmart::last_results()`.")
   } else {
-    cat("No result \n")
+    cli::cli_alert_success("Pas de résultat.")
   }
   invisible(query_results)
 }
@@ -172,5 +173,6 @@ underline_3_digits_group <- function(nb) {
   nbs <- str_split(nb, "") %>% unlist
   idx <- which(trunc((seq_along(nbs) - length(nbs)) / 3) %% 2 == 1)
   nbs[idx] <- crayon::underline(nbs[idx])
-  cat(stringr::str_c(nbs, collapse = ""))  }
+  stringr::str_c(nbs, collapse = "")
+}
 
