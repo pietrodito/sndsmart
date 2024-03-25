@@ -1,44 +1,41 @@
 #'@export
 exec_sql_file <- function(sql_file, verbose = TRUE) {
 
-  if(is.null(the$connection)) {
-    cli::cli_alert_warning("No connection has been set.")
-    cli::cli_alert_info("you need to call `sndsmart::connect()`")
-    return(invisible())
-  }
+  if(is_set_connection()) {
 
-  if (! verbose) {
-    stdout <- vector('character')
-    con    <- textConnection('stdout', 'wr', local = TRUE)
-    sink(con)
-  }
+    if (! verbose) {
+      stdout <- vector('character')
+      con    <- textConnection('stdout', 'wr', local = TRUE)
+      sink(con)
+    }
 
-  main <- function() {
+    main <- function() {
 
-    pre_tmp_sql_file  <- stringr::str_c(sql_file, ".pre.temp" )
-    post_tmp_sql_file <- stringr::str_c(sql_file, ".post.temp")
+      pre_tmp_sql_file  <- stringr::str_c(sql_file, ".pre.temp" )
+      post_tmp_sql_file <- stringr::str_c(sql_file, ".post.temp")
 
-    prepend_m4_setup_and_macros(sql_file, pre_tmp_sql_file)
+      prepend_m4_setup_and_macros(sql_file, pre_tmp_sql_file)
 
-    apply_m4_to_file(pre_tmp_sql_file, post_tmp_sql_file)
+      apply_m4_to_file(pre_tmp_sql_file, post_tmp_sql_file)
 
-    queries <- parse_sql_queries(post_tmp_sql_file)
+      queries <- parse_sql_queries(post_tmp_sql_file)
 
-    file.remove(pre_tmp_sql_file)
-    file.remove(post_tmp_sql_file)
+      file.remove(pre_tmp_sql_file)
+      file.remove(post_tmp_sql_file)
 
-    rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
-    secure_flush_for_insertions()
-    query_results <- purrr::compact(rss)
+      rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
+      secure_flush_for_insertions()
+      query_results <- purrr::compact(rss)
 
-    present_results(query_results)
-  }
+      present_results(query_results)
+    }
 
-  the$last_results <- main()
+    the$last_results <- main()
 
-  if (! verbose) {
-    sink()
-    close(con)
+    if (! verbose) {
+      sink()
+      close(con)
+    }
   }
 }
 
@@ -62,7 +59,7 @@ send_query <- function(query) {
   }
   info <- ROracle::dbGetInfo(rs)
   if(info$completed) {
-    cli::cli_alert_info("-- COMPLÉTÉ --\n")
+    cli::cli_alert_info("-- COMPLÉTÉE --\n")
     cli::cli_alert_success(
     "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s).")
     NULL
