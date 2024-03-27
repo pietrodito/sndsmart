@@ -1,10 +1,11 @@
 #'@export
 connect <- function()  {
   library(ROracle)
-  cli::cli_alert_info("Connexion à ORACLE...\n")
+  cli::cli_h1("Connexion au serveur {.emph ORACLE}")
+  cli::cli_alert_info("Tentative de connexion...")
   drv <- DBI::dbDriver("Oracle")
   the$connection <- ROracle::dbConnect(drv, dbname = "IPIAMPR2.WORLD")
-  cli::cli_alert_success("Vous êtes connecté !\n")
+  cli::cli_alert_success("Vous êtes connecté !")
   invisible(the$connection)
 }
 

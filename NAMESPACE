@@ -3,6 +3,7 @@
 export("%>%")
 export(connect)
 export(current_connection)
+export(show_sql_after_macro)
 export(exec_sql_file)
 export(last_results)
 export(list_tables)
