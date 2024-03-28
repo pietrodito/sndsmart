@@ -7,7 +7,7 @@
 
 ## Connexion
 ```
-sndsmart::connect()`
+sndsmart::connect()
 ```
 
 ## Éxecution de requêtes SQL
@@ -24,13 +24,13 @@ sndsmart::connect()`
     where BEN_RES_DTP = '075'
       and BEN_NAI_ANN < 1924
         and BEN_SEX_COD = 1
-        /
+    /
 
-        create table CENTENAIRES_PARISIENS_FEMMES
-        select *
-        from IR_BEN_R
-        where BEN_RES_DTP = '075'
-          and BEN_NAI_ANN < 1924
-            and BEN_SEX_COD = 2
-            /
+    create table CENTENAIRES_PARISIENS_FEMMES
+    select *
+    from IR_BEN_R
+    where BEN_RES_DTP = '075'
+      and BEN_NAI_ANN < 1924
+      and BEN_SEX_COD = 2
+    /
     ```
