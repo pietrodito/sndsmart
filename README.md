@@ -126,3 +126,6 @@ PARISIENS_100ANS
   and FEMME
 /
 ```
+
+### Marcros à votre disposition
++ Des macros vous sont proposées dans le répertoire [inst/extdata/macros](inst/extdata/macros)
