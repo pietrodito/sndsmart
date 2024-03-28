@@ -89,3 +89,15 @@ define([REMPLACE_MOI], [PAR_CECI])
       and FEMME
     /
     ```
+
++ Vous pouvez voir le résultat de l'application des macros sans exécuter :
+    ```
+    sndsmart::show_sql_after_macro("test.sql")
+    ```
+
+    <p align="center">
+          <img alt="résultat après exécution des requêtes"
+               src="./README_images/application_macros.PNG"/>
+    </p>
+
+### Exemple de macros imbriquées : 
