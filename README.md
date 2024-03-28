@@ -129,3 +129,4 @@ PARISIENS_100ANS
 
 ### Marcros à votre disposition
 + Des macros vous sont proposées dans le répertoire [inst/extdata/macros](inst/extdata/macros)
++ Elles sont immédiatement disposibles dans vos scripts SQL.
