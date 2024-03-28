@@ -34,8 +34,15 @@ sndsmart::connect()
       and BEN_SEX_COD = '2'
     /
     ```
+    + On éxecute ce fichier :
+        ```
+        sndsmart::exec_sql_file("test.sql")
+        ```
+
+    + On obtient ceci :
 
     <p align="center">
           <img alt="résultat après éxecution des requêtes"
                src="./README_images/résultat_après_éxecution_des_requêtes.PNG"/>
     </p>
+
