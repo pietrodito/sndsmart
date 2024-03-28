@@ -34,3 +34,8 @@ sndsmart::connect()
       and BEN_SEX_COD = '2'
     /
     ```
+
+    <p align="center">
+          <img alt="résultat après éxecution des requêtes"
+_______________src="./README_images/résultat_après_éxecution_des_requêtes.PNé"/>
+    </p>
