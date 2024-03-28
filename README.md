@@ -55,3 +55,37 @@ sndsmart::connect()
     ```
     sndsmart::drop_table(prefixe = "ZZZ_")
     ```
+## Utilisation de macros `m4`
++ Vous pouvez utiliser des [macros m4](https://www.gnu.org/software/m4/manual/m4.html) dans vos scripts SQL
++ Sachez que les [délimiteurs sont déjà redéfinis](https://www.gnu.org/software/m4/manual/html_node/Changequote.html).
+
+### Définir une macro :
+```
+define([REMPLACE_MOI], [PAR_CECI])
+```
++ Toutes les occurences de `REMPLACE_MOI` seront substituées par `PAR_CECI` avant envoi au serveur SQL.
+
+### Exemples de macros simples :
++ Si on reprend le code sql précédent :
+    ```
+    define([PARISIENS], [BEN_RES_DPT = '075'])
+    define([CENTENAIRES], [BEN_NAI_ANN < 1924])
+    define([HOMME], [BEN_SEX_COD = '1'])
+    define([FEMME], [BEN_SEX_COD = '2'])
+
+    create table ZZZ_PARISIENS_100ANS_H as
+    select *
+    from IR_BEN_R
+    where PARISIENS
+      and CENTENAIRES
+      and HOMME
+    /
+
+    create table ZZZ_PARISIENS_100ANS_F as
+    select *
+    from IR_BEN_R
+    where PARISIENS
+      and CENTENAIRES
+      and FEMME
+    /
+    ```
