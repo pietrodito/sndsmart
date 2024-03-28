@@ -101,3 +101,28 @@ define([REMPLACE_MOI], [PAR_CECI])
     </p>
 
 ### Exemple de macros imbriquées : 
+
+```
+define([PARISIENS], [BEN_RES_DPT = '075'])
+define([CENTENAIRES], [BEN_NAI_ANN < 1924])
+define([HOMME], [BEN_SEX_COD = '1'])
+define([FEMME], [BEN_SEX_COD = '2'])
+
+define([PARISIENS_100ANS], [
+select *
+from IR_BEN_R
+where PARISIENS
+  and CENTENAIRES
+  
+])
+
+create table ZZZ_PARISIENS_100ANS_H as
+PARISIENS_100ANS
+  and HOMME
+/
+
+create table ZZZ_PARISIENS_100ANS_F as
+PARISIENS_100ANS
+  and FEMME
+/
+```
