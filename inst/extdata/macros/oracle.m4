@@ -20,8 +20,10 @@ dnl * La macro tente de supprimer la *
 dnl * table avant de la créer.       *
 dnl **********************************
 define([create_table], [
-/* !! Requête DROP automatisée */
-/* !! Erreur attendue si table inexistante */
+/**********************************************/
+/* !!       Requête DROP automatisée       !! */
+/* !! Erreur attendue si table inexistante !! */
+/**********************************************/
 create_empty($1) as])
 
 define([count_lines], [
