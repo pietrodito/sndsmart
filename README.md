@@ -43,6 +43,6 @@ sndsmart::connect()
 
     <p align="center">
           <img alt="résultat après exécution des requêtes"
-               src="./README_images/résultat_après_éxecution_des_requêtes.PNG"/>
+               src="./README_images/résultat_après_exécution_des_requêtes.PNG"/>
     </p>
 
