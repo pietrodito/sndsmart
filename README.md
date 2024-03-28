@@ -18,19 +18,19 @@ sndsmart::connect()
     ```
 + Exemple de fichier :
     ```{sql}
-    create table CENTENAIRES_PARISIENS_HOMMES
+    create table ZZZ_PARISIENS_100ANS_H as
     select *
     from IR_BEN_R
-    where BEN_RES_DTP = '075'
+    where BEN_RES_DPT = '075'
       and BEN_NAI_ANN < 1924
-        and BEN_SEX_COD = 1
+      and BEN_SEX_COD = '1'
     /
 
-    create table CENTENAIRES_PARISIENS_FEMMES
+    create table ZZZ_PARISIENS_100ANS_F as
     select *
     from IR_BEN_R
-    where BEN_RES_DTP = '075'
+    where BEN_RES_DPT = '075'
       and BEN_NAI_ANN < 1924
-      and BEN_SEX_COD = 2
+      and BEN_SEX_COD = '2'
     /
     ```
