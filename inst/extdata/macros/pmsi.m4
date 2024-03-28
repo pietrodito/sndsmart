@@ -16,12 +16,42 @@ dnl * Au préalable b et c sont des   *
 dnl * alisas de tables               *
 dnl **********************************
 define([j2k], [$1.ETA_NUM = $2.ETA_NUM and $1.RSA_NUM = $2.RSA_NUM])
+
+dnl **********************************
+dnl * j2k_ssr                        *
+dnl *--------------------------------*
+dnl * Facilite la jointure entre 2   *
+dnl * tables du PMSI SSR             *
+dnl **********************************
 define([j2k_ssr], [$1.ETA_NUM = $2.ETA_NUM and $1.RHA_NUM = $2.RHA_NUM])
+
+dnl **********************************
+dnl * j2k_rip                        *
+dnl *--------------------------------*
+dnl * Facilite la jointure entre 2   *
+dnl * tables du PMSI PSY             *
+dnl **********************************
 define([j2k_rip], [$1.ETA_NUM_EPMSI = $2.ETA_NUM_EPMSI and $1.RIP_NUM  = $2.RIP_NUM])
+
+dnl **********************************
+dnl * j2k_had                        *
+dnl *--------------------------------*
+dnl * Facilite la jointure entre 2   *
+dnl * tables du PMSI HAD             *
+dnl **********************************
 define([j2k_had], [$1.ETA_NUM_EPMSI = $2.ETA_NUM_EPMSI and $1.RHAD_NUM = $2.RHAD_NUM])
 
 define([GHM_CHIRURGICAL], [[substr]($1.GRG_GHM, 3, 1) = 'C'])
 
+dnl **********************************
+dnl * nettoyage_sejours              *
+dnl *--------------------------------*
+dnl * suit recommendations :         *
+dnl * - dédoublonne FINESS GÉO       *
+dnl * - supprime GHM en erreur       *
+dnl * - supprime préstations         *
+dnl *   inter-établissements         *
+dnl **********************************
 define([nettoyage_sejours], [
    define([prefixe], [$1])
 
@@ -42,6 +72,13 @@ define([nettoyage_sejours], [
      and (prefixe[].SEJ_TYP is null or prefixe[].SEJ_TYP <> 'B')
 ])
 
+dnl **********************************
+dnl * nettoyage_chainage             *
+dnl *--------------------------------*
+dnl * ignore séjours non chainables  *
+dnl * - utile en épidémiologie       *
+dnl * - inutile pour activité étab.  *
+dnl **********************************
 define([nettoyage_chainage], [
   define([prefixe], [$1])
 
@@ -52,12 +89,12 @@ define([nettoyage_chainage], [
 ])
 
 
-dnl #########################################################
-dnl #  You must define ANNEE macro in ./sql/user_macros.m4  #
-dnl #  eg:                                                  #
-dnl #                                                       #
-dnl #  define([ANNEE], [2015])                              #
-dnl #########################################################
+dnl *****************************************
+dnl *  Pour utiliser les macros ci-dessous, *
+dnl *  Vous devez définir ANNEE             *
+dnl *                                       *
+dnl *  define([ANNEE], [2015])              *
+dnl *****************************************
 
 define([ANNEE_2_DIGITS], [substr(ANNEE, [2], [2])])
 define([T_MCOaaA],  [T_MCO[]ANNEE_2_DIGITS[]A])
