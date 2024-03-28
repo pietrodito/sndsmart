@@ -46,3 +46,12 @@ sndsmart::connect()
                src="./README_images/résultat_après_exécution_des_requêtes.PNG"/>
     </p>
 
+## Gestion des tables ORAUSER
++ Lister les tables
+    ```
+    sndsmart::list_tables()
+    ```
++ Supprimer des tables
+    ```
+    sndsmart::drop_table(prefixe = "ZZZ_")
+    ```
