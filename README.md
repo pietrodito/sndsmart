@@ -1,4 +1,6 @@
-## Ce package facilite l'accès et le requêtage des données ORACLE su SNDS
+# `sndsmart`
+
++ Ce package facilite l'accès et le requêtage des données ORACLE sur le SNDS
 
 ## Installation
 + Il faut d'abord installer le package suivant https://github.com/pietrodito/sndshare
