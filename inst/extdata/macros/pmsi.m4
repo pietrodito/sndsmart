@@ -1,3 +1,20 @@
+dnl **********************************
+dnl * j2k                            *
+dnl *--------------------------------*
+dnl * Facilite la jointure entre 2   *
+dnl * tables du PMSI MCO             *
+dnl *--------------------------------*
+dnl * usage :                        *
+dnl *                                *
+dnl *   select *                     *
+dnl *   from       T_MCO22B b        *
+dnl *   inner join T_MCO22C c        *
+dnl *     on j2k(b, c)               *
+dnl *                                *
+dnl *--------------------------------*
+dnl * Au préalable b et c sont des   *
+dnl * alisas de tables               *
+dnl **********************************
 define([j2k], [$1.ETA_NUM = $2.ETA_NUM and $1.RSA_NUM = $2.RSA_NUM])
 define([j2k_ssr], [$1.ETA_NUM = $2.ETA_NUM and $1.RHA_NUM = $2.RHA_NUM])
 define([j2k_rip], [$1.ETA_NUM_EPMSI = $2.ETA_NUM_EPMSI and $1.RIP_NUM  = $2.RIP_NUM])
