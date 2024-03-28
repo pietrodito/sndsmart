@@ -172,11 +172,11 @@ present_results <- function(query_results) {
     print(query_results)
     cat("-------------------------------------\n")
     cli::cli_alert_success(
-      "Le fichier a produit {length(query_results)} résultat{?s}.")
+      "Le fichier a produit {length(query_results)} résultat{?s} côté R.")
     cli::cli_alert_info(
       "Vous pouvez acceder aux résultats avec : `sndsmart::last_results()`.")
   } else {
-    cli::cli_alert_success("Pas de résultat.")
+    cli::cli_alert_success("Pas de résultat rappatrié côté R.")
   }
   invisible(query_results)
 }
