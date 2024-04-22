@@ -10,6 +10,7 @@ export(exec_sql_file)
 export(last_results)
 export(list_tables)
 export(show_sql_after_macro)
+export(update_dcir_an_1)
 export(upload_from_csv)
 export(upload_from_csv2)
 
