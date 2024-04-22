@@ -1,15 +1,9 @@
 #'@export
-exec_sql_file <- function(sql_file, verbose = TRUE) {
-
-  cli::cli_h1("Éxecution du fichier {.emph {sql_file}}")
+exec_sql_file <- function(sql_file, with_title = TRUE) {
 
   if(is_set_connection()) {
 
-    if (! verbose) {
-      stdout <- vector('character')
-      con    <- textConnection('stdout', 'wr', local = TRUE)
-      sink(con)
-    }
+    if(with_title) cli::cli_h1("Éxecution du fichier {.emph {sql_file}}")
 
     main <- function() {
 
@@ -34,10 +28,6 @@ exec_sql_file <- function(sql_file, verbose = TRUE) {
 
     the$last_results <- main()
 
-    if (! verbose) {
-      sink()
-      close(con)
-    }
   }
 }
 
@@ -46,21 +36,21 @@ show_sql_after_macro <- function(sql_file) {
 
   cli::cli_h1("Application des macros au fichier {.emph {sql_file}}")
 
-      pre_tmp_sql_file  <- stringr::str_c(sql_file, ".pre.temp" )
-      post_tmp_sql_file <- stringr::str_c(sql_file, ".post.temp")
+  pre_tmp_sql_file  <- stringr::str_c(sql_file, ".pre.temp" )
+  post_tmp_sql_file <- stringr::str_c(sql_file, ".post.temp")
 
-      prepend_m4_setup_and_macros(sql_file, pre_tmp_sql_file)
+  prepend_m4_setup_and_macros(sql_file, pre_tmp_sql_file)
 
-      apply_m4_to_file(pre_tmp_sql_file, post_tmp_sql_file)
-      file.remove(pre_tmp_sql_file)
+  apply_m4_to_file(pre_tmp_sql_file, post_tmp_sql_file)
+  file.remove(pre_tmp_sql_file)
 
-      queries <- parse_sql_queries(post_tmp_sql_file)
-      file.remove(post_tmp_sql_file)
+  queries <- parse_sql_queries(post_tmp_sql_file)
+  file.remove(post_tmp_sql_file)
 
-      purrr::walk2(queries, names(queries), function(q, n) {
-        cli::cli_h2(n)
-        cli::cli_code(q, language = "sql")
-      })
+  purrr::walk2(queries, names(queries), function(q, n) {
+    cli::cli_h2(n)
+    cli::cli_code(q, language = "sql")
+  })
 }
 
 #'@export
@@ -85,7 +75,7 @@ send_query <- function(query) {
   if(info$completed) {
     cli::cli_alert_info("-- COMPLÉTÉE --\n")
     cli::cli_alert_success(
-    "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s).")
+      "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s).")
     NULL
   }
   else {

@@ -50,7 +50,7 @@ drop_table <- function(prefixe = "", confirm = TRUE) {
 
       purrr::walk(tables, function(table) {
         tryCatch(
-          dbSendQuery(the$connection, paste("drop table", table)),
+          dbSendQuery(the$connection, glue::glue('drop table "{table}"')),
           error = function(e)  cat(e$message)
         )
       })

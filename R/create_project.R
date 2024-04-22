@@ -4,7 +4,6 @@ create_project <- function(project_name, open.project = TRUE) {
     Rproj_file <- template_dir <-  NULL
 
   set_up_path_variables <- function() {
-    browser()
     RStudio_dir  <<- system("pwd", intern = TRUE)
     skeleton_dir <<- system.file(
       "extdata", "new_project_skeleton", package = "sndsmart"

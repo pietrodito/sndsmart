@@ -2,6 +2,7 @@
 
 export(connect)
 export(create_project)
+export(create_sql_file)
 export(current_connection)
 export(drop_all_orauser_tables)
 export(drop_table)
@@ -9,6 +10,8 @@ export(exec_sql_file)
 export(last_results)
 export(list_tables)
 export(show_sql_after_macro)
+export(upload_from_csv)
+export(upload_from_csv2)
 
 export("%>%")
 importFrom(magrittr,"%>%")
