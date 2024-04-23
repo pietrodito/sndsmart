@@ -1,5 +1,5 @@
 #'@export
-exec_sql_file <- function(sql_file, with_title = TRUE) {
+exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
 
   if(is_set_connection()) {
 
@@ -23,11 +23,12 @@ exec_sql_file <- function(sql_file, with_title = TRUE) {
       hack_for_insertions()
       query_results <- purrr::compact(rss)
 
-      present_results(query_results)
+      if(with_results) {
+        present_results(query_results)
+      }
+      invisible(query_results)
     }
-
     the$last_results <- main()
-
   }
 }
 
@@ -179,7 +180,6 @@ present_results <- function(query_results) {
   } else {
     cli::cli_alert_success("Pas de résultat rappatrié côté R.")
   }
-  invisible(query_results)
 }
 
 #_______________________________________________________________________________

@@ -17,4 +17,5 @@ Imports:
     magrittr,
     purrr,
     readr,
+    rlang,
     stringr

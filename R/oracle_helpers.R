@@ -65,6 +65,61 @@ drop_all_orauser_tables <- function() {
   drop_table("")
 }
 
+#'@export
+preview_table <- function(table_name) {
+
+  template_path <- tempfile_path <- NULL
+
+  copy_template_to_temp <- function() {
+    template_path <<- system.file("extdata/templates/glimpse_helper.sql",
+                                  package = "sndsmart")
+    tempfile_path <<- glue::glue(
+      "./.temp/.tempfile{ ceiling(1e6*runif(1)) }.sql")
+    system(glue::glue("cp {template_path} {tempfile_path}"))
+  }
+
+  update_table_name_in_temp_file <- function() {
+    command <- glue::glue(
+      "sed -i 's/<table-to-glimpse>/{table_name}/' {tempfile_path}"
+      )
+    system(command)
+  }
+
+  remove_temp_file <- function() system(glue::glue("rm -f {tempfile_path}"))
+
+  copy_template_to_temp()
+  update_table_name_in_temp_file()
+
+  cli::cli_h1(
+    "Requêtes nécessaires à la prévisualisation de {.emph {table_name}}")
+
+  exec_sql_file(tempfile_path, with_title = FALSE, with_results = FALSE)
+  remove_temp_file()
+  line <- stringr::str_c(c(rep("_", 80), "\n"), collapse = "")
+  cli::cli_rule()
+  print(last_results()[[1]])
+  cli::cli_rule()
+  print(last_results()[[2]])
+  cli::cli_rule()
+  dplyr::glimpse(last_results()[[2]])
+  cli::cli_rule()
+}
+
+#'@export
+download_table <- function(table) {
+
+  begin <- Sys.time()
+  rs <- tryCatch(
+    dbSendQuery(the$connection, glue::glue("select * from {table}")),
+    error = function(e)  cat(e$message)
+  )
+  duration <- difftime(Sys.time(), begin)
+  cli::cli_alert_info("Temps d'éxecution :", format(duration), "\n")
+  f <- tibble::as_tibble(ROracle::fetch(rs))
+  print(f)
+  return(f)
+}
+
 is_set_connection <- function() {
   if(is.null(the$connection)) {
     cli::cli_alert_warning("Connexion ORACLE non définie.")
