@@ -56,7 +56,8 @@ update_dcir_an_1 <- function() {
       pattern <- "\\(define(\\[DCIR_AN1], \\[\\)[[:digit:]]\\+"
       replacement <- glue::glue("\\1{year}0101")
       sed_operation <- glue::glue("sed -i 's|{pattern}|{replacement}|'")
-      target_file <- system.file("extdata/macros/dcir_an_1.m4", package = "sndsmart")
+      target_file <- system.file("extdata/macros/dcir_an_1.m4",
+                                 package = "sndsmart")
       command <- glue::glue("{sed_operation} {target_file}")
       system(command)
       cli::cli_alert_success(glue::glue(

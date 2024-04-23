@@ -11,6 +11,10 @@ drop table $1
 ])
 
 define([create_empty], [
+/**********************************************/
+/* !!       Requête DROP automatisée       !! */
+/* !! Erreur attendue si table inexistante !! */
+/**********************************************/
 drop_table($1)
 create table $1])
 
@@ -25,10 +29,6 @@ dnl * La macro tente de supprimer la *
 dnl * table avant de la créer.       *
 dnl **********************************
 define([create_table], [
-/**********************************************/
-/* !!       Requête DROP automatisée       !! */
-/* !! Erreur attendue si table inexistante !! */
-/**********************************************/
 create_empty($1) as])
 
 dnl **********************************

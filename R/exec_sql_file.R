@@ -20,7 +20,7 @@ exec_sql_file <- function(sql_file, with_title = TRUE) {
       file.remove(post_tmp_sql_file)
 
       rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
-      secure_flush_for_insertions()
+      hack_for_insertions()
       query_results <- purrr::compact(rss)
 
       present_results(query_results)
@@ -124,11 +124,15 @@ parse_sql_queries <- function(sql_file) {
   list_needs_numbering
 }
 
-secure_flush_for_insertions <- function() {
+hack_for_insertions <- function() {
+
+  cli::cli_h3("Hack de sécurisation des insertions")
 
   tryCatch(
-    fetch_result <- fetch(dbSendQuery(oracle_connection, stringr::str_c("
-                                    drop table FLUSH_INSERTIONS"))),
+    fetch_result <-
+      fetch(
+        dbSendQuery(the$connection,
+          glue::glue("drop table FLUSH_INSERTION_HACK"))),
     error = function(e) return()
   )
 }
@@ -152,15 +156,22 @@ apply_m4_to_file <- function(pre_tmp_sql_file, post_tmp_sql_file) {
   system(stringr::str_c("m4 ", pre_tmp_sql_file, " > ", post_tmp_sql_file))
 }
 
+print_one_result <- function(result, name) {
+  cli::cli_h2(name)
+  print(result)
+}
+
 present_results <- function(query_results) {
+
+  cli::cli_h1("Rësultats des requêtes")
 
   if (length(query_results) > 0) {
     names(query_results) <- stringr::str_c("Résultat #",
                                            seq_along(query_results))
 
-    cli::cli_h1("Liste des résultats")
-    print(query_results)
-    cat("-------------------------------------\n")
+    purrr::iwalk(query_results, print_one_result)
+
+    cli::cli_rule()
     cli::cli_alert_success(
       "Le fichier a produit {length(query_results)} résultat{?s} côté R.")
     cli::cli_alert_info(

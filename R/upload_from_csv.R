@@ -18,11 +18,11 @@ upload_from_csv <- function(csv_file, table_name, csv2 = FALSE) {
     df <<- replace(df, is.na(df), 'NULL')
   }
 
-  replace_quotes_by_underscores <- function() {
+  replace_quotes_by_spaces <- function() {
     (
       df
       %>% dplyr::mutate(dplyr::across(
-        .fns = ~ stringr::str_replace_all(., "'", "")))
+        .fns = ~ stringr::str_replace_all(., "'", " ")))
     ) ->> df
   }
 
@@ -69,7 +69,7 @@ upload_from_csv <- function(csv_file, table_name, csv2 = FALSE) {
 
   read_file_and_columns_size()
   replace_NA_by_NULL()
-  replace_quotes_by_underscores()
+  replace_quotes_by_spaces()
   create_table()
   insert_lines()
   print_title()
