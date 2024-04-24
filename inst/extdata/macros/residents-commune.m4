@@ -15,7 +15,7 @@ dnl ##########################################################
 
 define([residents_commune],
 
-[dnl 
+[dnl
 
   define([RC_TABLE_COMMUNES], $1)
   define([RC_DATE_RESIDENCE], date_oracle($2))
@@ -27,16 +27,16 @@ define([residents_commune],
    inner join    RC_TABLE_COMMUNES rtc
    on            ben.BEN_RES_DPT = rtc.CODE_DPT
      and         ben.BEN_RES_COM = rtc.CODE_COM)
-     
+
   union
-  
+
   (select        ben.BEN_IDT_ANO
    from          IR_BEN_R_ARC ben
    inner join    RC_TABLE_COMMUNES rtc
    on            ben.BEN_RES_DPT = rtc.CODE_DPT
      and         ben.BEN_RES_COM = rtc.CODE_COM)
 /
-  
+
   create_table(RC_HIST_RES_RAW)
     (select     b.BEN_IDT_ANO
        ,        BEN_RES_DPT
@@ -45,9 +45,9 @@ define([residents_commune],
      from       IR_BEN_R b
      inner join RC_ANO_AYANT_VECU av
        on       b.BEN_IDT_ANO = av.BEN_IDT_ANO)
-       
+
     union
-    
+
     (select     b.BEN_IDT_ANO
        ,        BEN_RES_DPT
        ,        BEN_RES_COM
@@ -70,7 +70,7 @@ define([residents_commune],
 
   create_table(RC_HIST_RES_BEFORE_DATE)
   select *
-  from 
+  from
   (select * from RC_HIST_RES_RAW
     union
   select BEN_IDT_ANO
@@ -81,7 +81,7 @@ define([residents_commune],
   where N = 1)
   where BEN_DTE_MAJ <= RC_DATE_RESIDENCE
   order by BEN_IDT_ANO, BEN_DTE_MAJ
-/ 
+/
 
   create_table(RC_TABLE_OUTPUT)
   select distinct  BEN_IDT_ANO
@@ -90,12 +90,12 @@ define([residents_commune],
   inner join RC_TABLE_COMMUNES rtc
     on        a.BEN_RES_DPT = rtc.CODE_DPT
     and       a.BEN_RES_COM = rtc.CODE_COM
-  
+
   where a.BEN_DTE_MAJ = (
              select max(BEN_DTE_MAJ) as BEN_DTE_MAJ
              from RC_HIST_RES_BEFORE_DATE b
              where a.BEN_IDT_ANO = b.BEN_IDT_ANO)
-/ 
+/
 
 drop_table(RC_ANO_AYANT_VECU)
 drop_table(RC_HIST_RES_RAW)

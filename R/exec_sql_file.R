@@ -1,6 +1,20 @@
 #'@export
 exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
 
+  log_file <- glue::glue(
+    "./sql/exec_logs/{Sys.time()}.{basename(sql_file)}.log")
+  file.create(log_file)
+
+  log_fn <- function(text, time = FALSE) {
+    if(time) {
+      time <- Sys.time() %>% substr(12, 19)
+      readr::write_file("----------------------------------------", log_file, append = TRUE)
+      readr::write_file(glue::glue("\n\n{time}\n\n"), log_file, append = TRUE)
+      readr::write_file("----------------------------------------", log_file, append = TRUE)
+    }
+    readr::write_file(glue::glue("\n\n{text}\n\n"), log_file, append = TRUE)
+  }
+
   if(is_set_connection()) {
 
     if(with_title) cli::cli_h1("Éxecution du fichier {.emph {sql_file}}")
@@ -19,7 +33,7 @@ exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
       file.remove(pre_tmp_sql_file)
       file.remove(post_tmp_sql_file)
 
-      rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y))
+      rss <- purrr::map2(queries, names(queries), ~ treat_query(.x, .y, log_fn))
       hack_for_insertions()
       query_results <- purrr::compact(rss)
 
@@ -28,6 +42,7 @@ exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
       }
       invisible(query_results)
     }
+
     the$last_results <- main()
   }
 }
@@ -59,9 +74,28 @@ last_results <- function() {
   the$last_results
 }
 
+#'@export
+launch_sql_job <- function(sql_file) {
+  temp_string <- floor(runif(1)*10000000)
+  temp_path <- glue::glue(".temp/tempfile.{temp_string}.R")
+
+  job_template <- system.file("extdata/templates/launch-sql-job-script.R",
+                              pacakge = "sndsmart")
+
+  system(
+    glue::glue(
+      "sed 's:<path-to-file>:{sql_file}:' {job_template} > {temp_path}"
+    ))
+  rstudioapi::jobRunScript(
+    path = temp_path,
+    name = sql_file,
+    importEnv = TRUE,
+    exportEnv = "R_GlobalEnv")
+}
+
 #_______________________________________________________________________________
 #### #### exec_sql_file herlers ________________________________________________
-send_query <- function(query) {
+send_query <- function(query, log_fn) {
   begin <- Sys.time()
   rs <- tryCatch(
     ROracle::dbSendQuery(the$connection, query),
@@ -69,37 +103,51 @@ send_query <- function(query) {
   )
   duration <- difftime(Sys.time(), begin)
   cli::cli_h3("Temps d'exécution : {format(duration)}.")
+  log_fn(glue::glue("Temps d'exécution : {format(duration)}."))
+
   if(is.null(rs)) {
-    cli::cli_alert_warning("-- ÉCHEC --\n"); line(); return()
+    cli::cli_alert_warning("-- ÉCHEC --\n"); line();
+    log_fn("-- ÉCHEC --\n")
+    return()
   }
   info <- ROracle::dbGetInfo(rs)
   if(info$completed) {
     cli::cli_alert_info("-- COMPLÉTÉE --\n")
+    log_fn("-- COMPLÉTÉE --\n")
     cli::cli_alert_success(
       "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s).")
+    log_fn(
+      glue::glue(
+        "{underline_3_digits_group(info$rowsAffected)} ligne(s) affectée(s)."
+      )
+    )
     NULL
   }
   else {
     cli::cli_h3("-- VALEUR RETOURNÉE --\n")
+    log_fn("-- VALEUR RETOURNÉE --\n")
     f <- tibble::as_tibble(ROracle::fetch(rs))
     print(f)
+    log_fn(f)
     return(f)
   }
 }
 
-present_query <- function(title, query) {
+present_query <- function(title, query, log_fn) {
   cli::cli_h2(title)
+  log_fn(glue::glue("\n{title}\n"), time = TRUE)
   dashed_line()
   cli::cli_code(query, language = "sql")
+  log_fn(query)
   dashed_line()
 }
 
-treat_query <- function(query, title) {
+treat_query <- function(query, title, log_fn) {
   cat("\n")
   cat("\n")
   line()
-  present_query(title, query)
-  rs <- send_query(query)
+  present_query(title, query, log_fn)
+  rs <- send_query(query, log_fn)
   line()
   return(rs)
 }

@@ -36,7 +36,7 @@ dnl #         LISTE_ANO,                                     #
 dnl #         LISTE_PSA)                                     #
 dnl #                                                        #
 dnl ##########################################################
-  
+
 define([ano_psa_tous_les_psa], [
   define([ap_liste_anos], $1)
   create_table(ANO_PSA_TOUS_LES_PSA)
@@ -45,9 +45,9 @@ define([ano_psa_tous_les_psa], [
     inner join ap_liste_anos t
       on       b.BEN_IDT_ANO = t.BEN_IDT_ANO
       and      b.BEN_CDI_NIR = '00'
-  
+
    union
-  
+
     select     b.BEN_NIR_PSA
     from       IR_BEN_R_ARC b
     inner join ap_liste_anos t
@@ -75,9 +75,9 @@ define([ano_psa_tous_les_ano], [
     inner join ANO_PSA_TOUS_LES_PSA p
       on       b.BEN_NIR_PSA = p.BEN_NIR_PSA
       and      b.BEN_IDT_ANO is not null
-    
+
    union
-    
+
     select b.BEN_IDT_ANO
     from       IR_BEN_R_ARC b
     inner join ANO_PSA_TOUS_LES_PSA p
@@ -97,7 +97,7 @@ define([ano_psa_prepare_ano_psa], [
     (select BEN_NIR_PSA from ANO_PSA_TMP)
 /
 ])
-  
+
 define([ano_psa_tous_les_ano_psa], [
   create_table(ANO_PSA_TOUS_LES_ANO_PSA)
     select          b.BEN_IDT_ANO
@@ -106,15 +106,15 @@ define([ano_psa_tous_les_ano_psa], [
     inner join      ANO_PSA_TOUS_LES_ANO t
       on            b.BEN_IDT_ANO = t.BEN_IDT_ANO
       and           b.BEN_CDI_NIR = '00'
-  
+
    union
-  
+
     select          b.BEN_IDT_ANO
       ,             b.BEN_NIR_PSA
     from            IR_BEN_R_ARC b
     inner join      ANO_PSA_TOUS_LES_ANO t
       on            b.BEN_IDT_ANO = t.BEN_IDT_ANO
-/ dnl 
+/
 ])
 
 define([ano_psa_create_psa_ambigus], [
@@ -127,13 +127,13 @@ define([ano_psa_create_psa_ambigus], [
           from     ANO_PSA_TOUS_LES_ANO_PSA
           group by BEN_NIR_PSA)
    where  N_ANO > 1
-/ dnl
+/
 ])
 
 define([ano_psa_merge_psa_ambigus], [
   create_table(ANO_PSA_PSA_AMBIGUS_MERGED)
   select     ap.*
-    ,        pa.N_ANO as PSA_AMB 
+    ,        pa.N_ANO as PSA_AMB
   from       ANO_PSA_TOUS_LES_ANO_PSA ap
   left join  ANO_PSA_PSA_AMBIGUS pa
     on       pa.BEN_NIR_PSA = ap.BEN_NIR_PSA
@@ -155,7 +155,7 @@ define([ano_psa_create_ano_ambigus], [
        select BEN_IDT_ANO
          ,     count(BEN_IDT_ANO) as N_PSA
        from   (select * from ANO_PSA_PSA_AMBIGUS_MERGED
-               where  BEN_IDT_ANO in (select * from 
+               where  BEN_IDT_ANO in (select * from
                                         ANO_PSA_POSSIBLE_ANO_AMBIGUS))
        group by BEN_IDT_ANO
      )
@@ -170,7 +170,7 @@ define([ano_psa_merge_ano_ambigus], [
   from       ANO_PSA_PSA_AMBIGUS_MERGED pam
   left join  ANO_PSA_COUNT_ANO_AMBIGUS aa
     on       pam.BEN_IDT_ANO = aa.BEN_IDT_ANO
-/ 
+/
 ])
 
 define([ano_clean_tmp_tables], [
@@ -198,16 +198,15 @@ define([ano_psa], [
   define([ap_option], $2)
   define([ap_liste_1], $3)
   define([ap_liste_2], $4)
-  
-  
+
+
   ifelse(ap_option, ANO,     [ano_psa_prepare_ano(ap_liste_1)],
          ap_option, PSA,     [ano_psa_prepare_psa(ap_liste_1)],
          ap_option, ANO_PSA, [ano_psa_prepare_ano_psa(ap_liste_1, ap_liste_2)])
-                             
+
   ano_psa_main
-  
+
  rename_table(ANO_PSA_ANO_AMBIGUS_MERGED, ap_table_sortie)
-  
+
  ano_clean_tmp_tables
 ])
-  

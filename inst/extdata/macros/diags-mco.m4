@@ -1,7 +1,7 @@
 define([create_ARG_TBL],   [
 
   define([ANNEE], 2015) dnl random year to create empty table
-  
+
   create_table(ARG_OUT_TBL)
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -32,7 +32,7 @@ define([diags_MCO_DP], [dnl
    dnl --- else ---
    [define([VAR_DTE_ENT], [c.ENT_DAT])
    define( [VAR_DTE_SOR], [c.SOR_DAT])])
-    
+
     insert into ARG_OUT_TBL
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -62,7 +62,7 @@ define([diags_MCO_DR], [dnl
 
   define([VAR_ANNEE_DBT], substr(ARG_DTE_DBT, 5, 4))
   define([VAR_ANNEE_FIN], substr(ARG_DTE_FIN, 5, 4))
-  
+
  forloop([ANNEE], VAR_ANNEE_DBT, VAR_ANNEE_FIN, [
    ifelse(eval(ANNEE < 2009), 1,
    dnl --- then ---
@@ -71,7 +71,7 @@ define([diags_MCO_DR], [dnl
    dnl --- else ---
    [define([VAR_DTE_ENT], [c.ENT_DAT])
    define( [VAR_DTE_SOR], [c.SOR_DAT])])
-    
+
     insert into ARG_OUT_TBL
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -100,7 +100,7 @@ define([diags_MCO_DAS], [dnl
 
   define([VAR_ANNEE_DBT], substr(ARG_DTE_DBT, 5, 4))
   define([VAR_ANNEE_FIN], substr(ARG_DTE_FIN, 5, 4))
-  
+
  forloop([ANNEE], VAR_ANNEE_DBT, VAR_ANNEE_FIN, [
    ifelse(eval(ANNEE < 2009), 1,
    dnl --- then ---
@@ -109,7 +109,7 @@ define([diags_MCO_DAS], [dnl
    dnl --- else ---
    [define([VAR_DTE_ENT], [c.ENT_DAT])
    define( [VAR_DTE_SOR], [c.SOR_DAT])])
-    
+
     insert into ARG_OUT_TBL
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -141,7 +141,7 @@ define([diags_MCO_DP_RUM], [dnl
 
   define([VAR_ANNEE_DBT], substr(ARG_DTE_DBT, 5, 4))
   define([VAR_ANNEE_FIN], substr(ARG_DTE_FIN, 5, 4))
-  
+
  forloop([ANNEE], VAR_ANNEE_DBT, VAR_ANNEE_FIN, [
    ifelse(eval(ANNEE < 2009), 1,
    dnl --- then ---
@@ -150,7 +150,7 @@ define([diags_MCO_DP_RUM], [dnl
    dnl --- else ---
    [define([VAR_DTE_ENT], [c.ENT_DAT])
    define( [VAR_DTE_SOR], [c.SOR_DAT])])
-    
+
     insert into ARG_OUT_TBL
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -181,7 +181,7 @@ define([diags_MCO_DR_RUM], [dnl
 
   define([VAR_ANNEE_DBT], substr(ARG_DTE_DBT, 5, 4))
   define([VAR_ANNEE_FIN], substr(ARG_DTE_FIN, 5, 4))
-  
+
  forloop([ANNEE], VAR_ANNEE_DBT, VAR_ANNEE_FIN, [
    ifelse(eval(ANNEE < 2009), 1,
    dnl --- then ---
@@ -190,7 +190,7 @@ define([diags_MCO_DR_RUM], [dnl
    dnl --- else ---
    [define([VAR_DTE_ENT], [c.ENT_DAT])
    define( [VAR_DTE_SOR], [c.SOR_DAT])])
-    
+
     insert into ARG_OUT_TBL
     select     ap.BEN_IDT_ANO
       ,        sd.*
@@ -226,27 +226,27 @@ define([select_sought_diags], [
   forloop([ANNEE], VAR_ANNEE_DBT, VAR_ANNEE_FIN, [
     insert into ZZ_ALL_DIAGS
     select distinct trim(DGN_PAL) as CODE_CIM from T_MCOaaB b
-     union 
+     union
     select distinct trim(DGN_REL) as CODE_CIM from T_MCOaaB b
-     union 
+     union
     select distinct trim(ASS_DGN) as CODE_CIM from T_MCOaaD d
 /
   ])
-  
+
   create_table(ZZ_TEMP)
   select distinct * from ZZ_ALL_DIAGS
 /
 
   rename_table(ZZ_TEMP, ZZ_ALL_DIAGS)
-  
+
   create_table(ZZ_SOUGHT_DIAGS)
   select distinct  CODE_CIM
      ,            DESCRIPTION
   from         ZZ_ALL_DIAGS ad
   inner join   ARG_DGN_CIM dc
     on         ad.CODE_CIM like dc.PREFIXE_CIM || '%'
-/    
-       
+/
+
   drop_table(ZZ_ALL_DIAGS)
 
 ])
@@ -258,10 +258,10 @@ define([diags_MCO], [
   define([ARG_DTE_DBT], $3)
   define([ARG_DTE_FIN], $4)
   define([ARG_OUT_TBL], $5)
-  
+
   define([VAR_ANNEE_DBT], substr(ARG_DTE_DBT, 5, 4))
   define([VAR_ANNEE_FIN], substr(ARG_DTE_FIN, 5, 4))
-  
+
    select_sought_diags()
    create_ARG_TBL()
    diags_MCO_DP()
