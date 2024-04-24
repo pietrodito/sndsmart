@@ -1,4 +1,4 @@
-#'@export
+  #'@export
 exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
 
   log_file <- glue::glue(
@@ -7,7 +7,12 @@ exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
 
   log_fn <- function(text, time = FALSE) {
     if(time) {
-      time <- Sys.time() %>% substr(12, 19)
+      (
+        Sys.time()
+        %>% lubridate::ymd_hms()
+        %>% lubridate::with_tz("Europe/Paris")
+        %>% substr(12, 19)
+      ) -> time
       readr::write_file("----------------------------------------", log_file, append = TRUE)
       readr::write_file(glue::glue("\n\n{time}\n\n"), log_file, append = TRUE)
       readr::write_file("----------------------------------------", log_file, append = TRUE)
