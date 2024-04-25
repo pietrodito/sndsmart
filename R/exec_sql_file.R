@@ -1,11 +1,15 @@
-  #'@export
+#'@export
 exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
 
+  dir.create("~/sasdata1/sasuser/.sql_logs/", showWarnings = FALSE)
+
   log_file <- glue::glue(
-    "./sql/exec_logs/{Sys.time()}.{basename(sql_file)}.log")
+    "~/sasdata1/sasuser/.sql_logs/{Sys.time()}.{basename(sql_file)}.log")
   file.create(log_file)
 
+
   log_fn <- function(text, time = FALSE) {
+
     if(time) {
       (
         Sys.time()
@@ -13,16 +17,29 @@ exec_sql_file <- function(sql_file, with_title = TRUE, with_results = TRUE) {
         %>% lubridate::with_tz("Europe/Paris")
         %>% substr(12, 19)
       ) -> time
-      readr::write_file("----------------------------------------", log_file, append = TRUE)
-      readr::write_file(glue::glue("\n\n{time}\n\n"), log_file, append = TRUE)
-      readr::write_file("----------------------------------------", log_file, append = TRUE)
+      readr::write_file("----------------------------------------",
+                        log_file, append = TRUE)
+      readr::write_file(glue::glue("\n\n{time}\n\n"),
+                        log_file, append = TRUE)
+      readr::write_file("----------------------------------------",
+                        log_file, append = TRUE)
     }
-    readr::write_file(glue::glue("\n\n{text}\n\n"), log_file, append = TRUE)
+    if(is.data.frame(text)) {
+      sink(log_file, append = TRUE)
+      print(text, width = 80)
+      sink()
+    } else {
+
+      readr::write_file(glue::glue("\n\n{text}\n\n"), log_file, append = TRUE)
+    }
   }
 
   if(is_set_connection()) {
 
     if(with_title) cli::cli_h1("Éxecution du fichier {.emph {sql_file}}")
+
+    cli::cli_alert_info(
+      "NB: log dans le répretoire {.emph ~/sasdata1/sasuser/.sql_logs}")
 
     main <- function() {
 
@@ -102,6 +119,8 @@ launch_sql_job <- function(sql_file) {
 #_______________________________________________________________________________
 #### #### exec_sql_file herlers ________________________________________________
 send_query <- function(query, log_fn) {
+
+
   begin <- Sys.time()
   rs <- tryCatch(
     ROracle::dbSendQuery(the$connection, query),

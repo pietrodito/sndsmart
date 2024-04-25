@@ -71,10 +71,12 @@ preview_table <- function(table_name) {
   template_path <- tempfile_path <- NULL
 
   copy_template_to_temp <- function() {
+
     template_path <<- system.file("extdata/templates/glimpse_helper.sql",
                                   package = "sndsmart")
+    dir.create("~/sasdata1/sasuser/.temp_sql", showWarnings = FALSE)
     tempfile_path <<- glue::glue(
-      "./.temp/.tempfile{ ceiling(1e6*runif(1)) }.sql")
+      "~/sasdata1/sasuser/.temp_sql/.tempfile{ ceiling(1e6*runif(1)) }.sql")
     system(glue::glue("cp {template_path} {tempfile_path}"))
   }
 
