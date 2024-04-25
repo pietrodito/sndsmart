@@ -81,11 +81,12 @@ last_results <- function() {
 
 #'@export
 launch_sql_job <- function(sql_file) {
+
   temp_string <- floor(runif(1)*10000000)
   temp_path <- glue::glue(".temp/tempfile.{temp_string}.R")
 
   job_template <- system.file("extdata/templates/launch-sql-job-script.R",
-                              pacakge = "sndsmart")
+                              package = "sndsmart")
 
   system(
     glue::glue(

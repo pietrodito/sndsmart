@@ -7,8 +7,9 @@ connect <- function()  {
   cli::cli_alert_info("Synchronisation des fuseaux horaires R / Oracle")
   Sys.setenv(TZ='UTC')
   Sys.setenv(ORA_SDTZ='UTC')
-  cli::cli_alert_info("Tentative de connexion...")
-  cli::cli_alert_warning("Cela peut prendre une quinzaine de secondes.")
+  cli::cli_alert_info(
+    "Tentative de connexion... (jusqu'à 15 secondes)")
+
   drv <- DBI::dbDriver("Oracle")
   the$connection <- ROracle::dbConnect(drv, dbname = "IPIAMPR2.WORLD")
   cli::cli_alert_success("Vous êtes connecté !")
