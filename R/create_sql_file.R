@@ -20,6 +20,7 @@ update_sql_orchestration_file <- function(short_filepath) {
     text_to_insert <-  glue::glue(
       "if(sys.nframe() == 0) file.edit(\"{short_filepath}\") \n",
       "if(sys.nframe() == 0) show_sql_after_macro(\"{short_filepath}\") \n",
+      "if(sys.nframe() == 0) launch_sql_job(\"{short_filepath}\") \n",
       "exec_sql_file(\"{short_filepath}\")\n\n",
       "if(sys.nframe() == 0) create_sql_file(\"99-yyyyyyyyyy\")" )
     line_to_replace <-
