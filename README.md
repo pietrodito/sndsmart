@@ -4,6 +4,16 @@
 
 ## Installation
 + Il faut d'abord installer le package suivant https://github.com/pietrodito/sndshare
++ Puis créez le fichier `sndsmart.csv` :
+```
+setwd("~/sasdata1/sasuser/packages_R_externes/")
+file.edit("sndsmart.csv")
+```
++ Copiez/collez le contenu de [`zzz_sndsmart.csv`](https://raw.githubusercontent.com/pietrodito/sndsmart/main/zzz_sndsmart.csv) dans le fichier `sndsmart.csv` puis sauvegardez.
++ Puis importez le projet :
+```
+sndshare::import_from_csv("sndsmart.csv")
+```
 
 ## Connexion
 ```
