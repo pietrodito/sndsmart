@@ -14,3 +14,7 @@ dr <- function(table) {
   table <- rlang::quo_name(rlang::enquo(table))
   drop_table(table)
 }
+tc <- function(table) {
+  table <- rlang::quo_name(rlang::enquo(table))
+  table_connection(table)
+}
