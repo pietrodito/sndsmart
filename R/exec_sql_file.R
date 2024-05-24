@@ -105,6 +105,8 @@ launch_sql_job <- function(sql_file) {
   job_template <- system.file("extdata/templates/launch-sql-job-script.R",
                               package = "sndsmart")
 
+  dir.create(".temp", showWarnings = FALSE)
+
   system(
     glue::glue(
       "sed 's:<path-to-file>:{sql_file}:' {job_template} > {temp_path}"

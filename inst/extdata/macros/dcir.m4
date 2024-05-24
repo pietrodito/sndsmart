@@ -31,17 +31,66 @@ define([FLX_LOOP],
   dnl # ------------------------------------------------------ #
   dnl # define([beginning_date], 20080101)                     #
   dnl # define([nb_month_flx],   24)                           #
-  dnl # FLX_LOOP(begininnig_date, nb_month_flx,[dnl            #
-  dnl # insert into COLLECTING_TABLE                           #
+  dnl # FLX_LOOP(begininnig_date, nb_month_flx, output_table, [#
   dnl # select *                                               #
-  dnl # from ER_PRS_R[]ARC prs                                 # 
+  dnl # from ER_PRS_R[]ARC prs                                 #
   dnl # where prs.FLX_IDX])                                    #
   dnl ##########################################################
-[forloop([NM_FLX], [1], [$2], [define([FLX_YYYYMMDD], [add_months($1, NM_FLX)])dnl
-define([ARC], ARC_from_FLX(FLX_YYYYMMDD))dnl
-define([FLX_IDX], [FLX_DIS_DTD = to_date(FLX_YYYYMMDD, 'YYYYMMDD')])
-$3
-/])])dnl 
+
+  [
+  define([FLX_IDX], [FLX_DIS_DTD = to_date('17890714', 'YYYYMMDD')])
+
+    create_table(ZZZ_TEMP)
+    $4
+/
+    create_table(ZZZ_STATS)
+    select count(*) as N
+      ,    to_date('17890714', 'YYYYMMDD') as FLX_DIS_DTD
+      ,    CURRENT_TIMESTAMP as END
+    from ZZZ_TEMP
+/
+
+    create_table($3)
+    select * from ZZZ_TEMP
+/
+
+    forloop([NM_FLX], [1], [$2], [
+      define([FLX_YYYYMMDD], [add_months($1, NM_FLX)])
+      define([ARC], ARC_from_FLX(FLX_YYYYMMDD))dnl
+      define([FLX_IDX], [FLX_DIS_DTD = to_date(FLX_YYYYMMDD, 'YYYYMMDD')])
+
+      create_table(ZZZ_TEMP)
+      $4
+/
+      insert into ZZZ_STATS
+      select count(*) as N
+      ,      to_date(FLX_YYYYMMDD, 'YYYYMMDD') as FLX_DIS_DTD
+      ,    CURRENT_TIMESTAMP as END
+      from ZZZ_TEMP
+/
+      insert into $3
+      select * from ZZZ_TEMP
+/
+    ])
+
+    create_table(ZZZ_STATS_PROPER)
+    select FLX_DIS_DTD
+    ,      N
+    ,      END - lag(END) over(order by END) as DURATION
+    from ZZZ_STATS
+/
+    create_table($3_STATS)
+    select *
+    from ZZZ_STATS_PROPER
+    where FLX_DIS_DTD <> to_date('17890714', 'YYYYMMDD')
+/
+    drop table ZZZ_TEMP
+/
+    drop table ZZZ_STATS
+/
+    drop table ZZZ_STATS_PROPER
+/
+])
 
 define([j9k], [dnl
 $1.DCT_ORD_NUM=$2.DCT_ORD_NUM
