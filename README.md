@@ -169,6 +169,15 @@ PARISIENS_100ANS
 
 # Installation détaillée
 
+## Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
++ Dans le répertoire linux_utils de ce dépot
+### `extract_files_from_csv`
++ Décode et décompresse immédiatement le fichier `.csv`
+### `update_csv_from_local`
++ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
++ /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
+
+
 ## Paramètrage de R et RStudio
 
 ### Création des répertoires nécessaires
