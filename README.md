@@ -10,7 +10,7 @@
 unlink(paste0("~/sasdata1/sasuser/", c("packages_R_externes", "local-R-lib"), "/sndsmart/"), force = T, recursive = T)
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
 system('
-  if grep -Fxq "local-R-lib" ~/.Rprofile
+  if grep -q "local-R-lib" ~/.Rprofile
   then
     echo ".Rproile already set up"
   else
