@@ -7,7 +7,7 @@
 + /!\ Attention ce code modifie votre fichier `.Rprofile`
 + Si vous n'avez jamais modifé ce fichier tout devrait bien se passer, sinon lisez l'installation détaillée plus bas. 
 ```
-unlink(paste0("~/sasdata1/sasuser/", c("packages_R_externes, "local-R-lib"), "/sndsmart/"), force = T, recursive = T)
+unlink(paste0("~/sasdata1/sasuser/", c("packages_R_externes", "local-R-lib"), "/sndsmart/"), force = T, recursive = T)
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
 system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile")
 file.edit("~/sasdata1/sasuser/packages_R_externes/sndsmart.csv")
