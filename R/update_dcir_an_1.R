@@ -35,7 +35,7 @@ update_dcir_an_1 <- function() {
     cli::cli_h2(
       "Vérfication que votre accès SNDS n'est pas {.emph restreint à 10 ans}")
     cli::cli_h3(
-      "On vérifie que la table ER_PRS_F_2012 existe...")
+      "On vérifie que la synonyme ER_PRS_F_2012 est valide...")
     if(! is_query_correct("
                       select distinct 1 as ONE
                       from ER_PRS_F_2012

@@ -1,5 +1,7 @@
 upload_from_csv <- function(csv_file, table_name, csv2 = FALSE) {
 
+  dir.create(".temp", showWarnings = FALSE)
+
   tmp_sql_file <- glue::glue("./.temp/tempfile.{floor(runif(1)*1000000)}.sql")
   df <- declare_vars <- NULL
 

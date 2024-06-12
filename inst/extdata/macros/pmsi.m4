@@ -49,13 +49,14 @@ dnl *--------------------------------*
 dnl * suit recommendations :         *
 dnl * - dédoublonne FINESS GÉO       *
 dnl * - supprime GHM en erreur       *
+dnl * - supprime les séances         *
 dnl * - supprime préstations         *
 dnl *   inter-établissements         *
 dnl **********************************
 define([nettoyage_sejours], [
    define([prefixe], [$1])
 
-   and prefixe[].ETA_NUM
+   prefixe[].ETA_NUM
                 not in ('130780521', '130783236', '130783293', '130784234',
                         '130804297', '600100101', '750041543', '750100018',
                         '750100042', '750100075', '750100083', '750100091',
@@ -69,6 +70,7 @@ define([nettoyage_sejours], [
                         '690783154', '690784137', '690784152', '690784178',
                         '690787478', '830100558')
      and prefixe[].GRG_GHM not like '90%'
+     and prefixe[].GRG_GHM not like '28%'
      and (prefixe[].SEJ_TYP is null or prefixe[].SEJ_TYP <> 'B')
 ])
 
