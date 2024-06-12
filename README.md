@@ -12,6 +12,7 @@ fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-
 system('
   if grep -Fxq "local-R-lib" ~/.Rprofile
   then
+    echo ".Rproile already set up"
   else
     echo \'.libPaths(c("~/sasdata1/sasuser/local-R-lib/", .libPaths()))\' >> ~/.Rprofile
   fi
