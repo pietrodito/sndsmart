@@ -9,7 +9,13 @@
 ```
 unlink(paste0("~/sasdata1/sasuser/", c("packages_R_externes", "local-R-lib"), "/sndsmart/"), force = T, recursive = T)
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
-system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile")
+system("
+  if grep -Fxq "local-R-lib" ~/.Rprofile
+  then
+  else
+    echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile
+  fi
+")
 file.edit("~/sasdata1/sasuser/packages_R_externes/sndsmart.csv")
 ```
 + Copiez/collez dedans le contenu du fichier [`zzz_sndsmart.csv`](https://raw.githubusercontent.com/pietrodito/sndsmart/main/zzz_sndsmart.csv).
