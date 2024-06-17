@@ -44,9 +44,9 @@ silent_zip_dir <- function(zipfile, dir, exclude_dot_R, verbose = FALSE) {
   silent <- ! verbose
 
 
-  .exclude_data <- ' */data_NOT_EXPORTED/* '
-  .exclude_dot_R <- ' "*/.R*" ".R*" '
-  .exclude_dot_temp <- ' */.temp/* '
+  .exclude_data <- ' ./data_NOT_EXPORTED/* '
+  .exclude_dot_R <- ' "./.R*" ".R*" '
+  .exclude_dot_temp <- ' ./.temp/* '
 
   if(! exclude_dot_R) .exclude_dot_R <- ""
 
