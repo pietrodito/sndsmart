@@ -1,4 +1,3 @@
-library(sndsmart)
 connect()
 
 ## Si vous avez besoin d'importer des données côté ORACLE :
