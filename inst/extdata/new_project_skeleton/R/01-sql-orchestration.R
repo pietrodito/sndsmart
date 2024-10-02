@@ -2,7 +2,7 @@
 connect()
 
 ## Si vous avez besoin d'importer des données côté ORACLE :
-upload_from_csv("data/départements_par_région.csv", "AAA_DPTS_REGIONS")
+upload_from_csv("data/some_uro_diags.csv", "URO_DIAGS")
 
 
 ## NOTA BENE --------------------------------------------------------

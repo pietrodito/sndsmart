@@ -84,7 +84,7 @@ dnl **********************************
 define([nettoyage_chainage], [
   define([prefixe], [$1])
 
-  and (prefixe[].NIR_RET = '0' and prefixe[].NAI_RET = '0' and
+      (prefixe[].NIR_RET = '0' and prefixe[].NAI_RET = '0' and
        prefixe[].SEX_RET = '0' and prefixe[].SEJ_RET = '0' and
        prefixe[].FHO_RET = '0' and prefixe[].PMS_RET = '0' and
        prefixe[].DAT_RET = '0')
@@ -122,8 +122,35 @@ define([T_MCOzzUM], [T_MCO[]decr(ANNEE_2_DIGITS)[]UM])
 define([T_SSRaaB],  [T_SSR[]ANNEE_2_DIGITS[]B])
 define([T_SSRaaC],  [T_SSR[]ANNEE_2_DIGITS[]C])
 
-define([T_RIPaaS],  [T_RIP[]ANNEE_2_DIGITS[]S])
-define([T_RIPaaC],  [T_RIP[]ANNEE_2_DIGITS[]C])
 
 define([T_HADaaS],  [T_HAD[]ANNEE_2_DIGITS[]S])
 define([T_HADaaC],  [T_HAD[]ANNEE_2_DIGITS[]C])
+
+define([T_RIPaaC],           [T_RIP[]ANNEE_2_DIGITS[]C])
+define([T_RIPaaCCAM],        [T_RIP[]ANNEE_2_DIGITS[]CCAM])
+define([T_RIPaaCSTC],        [T_RIP[]ANNEE_2_DIGITS[]CSTC])
+define([T_RIPaaE],           [T_RIP[]ANNEE_2_DIGITS[]E])
+define([T_RIPaaFA],          [T_RIP[]ANNEE_2_DIGITS[]FA])
+define([T_RIPaaFB],          [T_RIP[]ANNEE_2_DIGITS[]FB])
+define([T_RIPaaFC],          [T_RIP[]ANNEE_2_DIGITS[]FC])
+define([T_RIPaaFH],          [T_RIP[]ANNEE_2_DIGITS[]FH])
+define([T_RIPaaFI],          [T_RIP[]ANNEE_2_DIGITS[]FI])
+define([T_RIPaaFL],          [T_RIP[]ANNEE_2_DIGITS[]FL])
+define([T_RIPaaFM],          [T_RIP[]ANNEE_2_DIGITS[]FM])
+define([T_RIPaaFP],          [T_RIP[]ANNEE_2_DIGITS[]FP])
+define([T_RIPaaISOCONT_CTL], [T_RIP[]ANNEE_2_DIGITS[]ISOCONT_CTL])
+define([T_RIPaaR3A],         [T_RIP[]ANNEE_2_DIGITS[]R3A])
+define([T_RIPaaR3AD],        [T_RIP[]ANNEE_2_DIGITS[]R3AD])
+define([T_RIPaaRSA],         [T_RIP[]ANNEE_2_DIGITS[]RSA])
+define([T_RIPaaRSAD],        [T_RIP[]ANNEE_2_DIGITS[]RSAD])
+define([T_RIPaaS],           [T_RIP[]ANNEE_2_DIGITS[]S])
+define([T_RIPaaSTC],         [T_RIP[]ANNEE_2_DIGITS[]STC])
+define([T_RIPaaSUP_DSC],     [T_RIP[]ANNEE_2_DIGITS[]SUP_DSC])
+define([T_RIPaaSUP_IUM],     [T_RIP[]ANNEE_2_DIGITS[]SUP_IUM])
+define([T_RIPaaSUP_TIE],     [T_RIP[]ANNEE_2_DIGITS[]SUP_TIE])
+define([T_RIPaaSUP_VAC],     [T_RIP[]ANNEE_2_DIGITS[]SUP_VAC])
+define([T_RIPaaTP],          [T_RIP[]ANNEE_2_DIGITS[]TP])
+define([T_RIPaaTP_CTL],      [T_RIP[]ANNEE_2_DIGITS[]TP_CTL])
+define([T_RIPaaTRPT],        [T_RIP[]ANNEE_2_DIGITS[]TRPT])
+define([T_RIPaaTRPT_CTL],    [T_RIP[]ANNEE_2_DIGITS[]TRPT_CTL])
+

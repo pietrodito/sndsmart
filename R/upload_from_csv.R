@@ -11,7 +11,9 @@ upload_from_csv <- function(csv_file, table_name, csv2 = FALSE) {
     } else {
       suppressMessages(df <<- readr::read_csv(csv_file))
     }
-    max_length <- purrr::map(df, ~ max(stringr::str_length(.), na.rm = TRUE))
+    max_length <- purrr::map(df, ~ max(stringr::str_length(.),
+                                       4, # minimum 4 to deal with NA -> NULL
+                                       na.rm = TRUE))
     declare_vars <<- stringr::str_c(names(df), " varchar (", max_length, ")",
                            collapse = ",\n")
   }
