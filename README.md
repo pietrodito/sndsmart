@@ -1,6 +1,5 @@
 # sndsmart
-
-+ Ce package facilite l'accès et le requêtage des données ORACLE sur le SNDS
+Ce package facilite l'accès et le requêtage des données ORACLE sur le SNDS
 
 ## Installation Rapide
 + Exécutez le code suivant sur la console :
