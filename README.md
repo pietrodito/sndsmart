@@ -285,8 +285,9 @@ system("rm sndsmart.zip ~/sasdata1/sasuser/packages_R_externes/sndsmart.csv")
 
 + Tapez `library(sndsmart)` dans la console, si vous n'obtenez pas de message d'erreur c'est que l'installation est réussie.
 + Vous devriez visualiser ceci :
-+
+    
     <p align="center">
       <img alt="Pour installer le package cliquez sur Build puis Install Package"
            src="./README_images/install_success.PNG" />
     </p>
+    
