@@ -99,12 +99,13 @@ dnl *  define([ANNEE], [2015])              *
 dnl *****************************************
 
 define([ANNEE_2_DIGITS], [substr(ANNEE, [2], [2])])
-define([T_MCOaaA],  [T_MCO[]ANNEE_2_DIGITS[]A])
-define([T_MCOaaB],  [T_MCO[]ANNEE_2_DIGITS[]B])
-define([T_MCOaaC],  [T_MCO[]ANNEE_2_DIGITS[]C])
-define([T_MCOaaD],  [T_MCO[]ANNEE_2_DIGITS[]D])
-define([T_MCOaaUM], [T_MCO[]ANNEE_2_DIGITS[]UM])
-define([T_MCOaaMED], [T_MCO[]ANNEE_2_DIGITS[]MED])
+define([T_MCOaaA],     [T_MCO[]ANNEE_2_DIGITS[]A])
+define([T_MCOaaB],     [T_MCO[]ANNEE_2_DIGITS[]B])
+define([T_MCOaaC],     [T_MCO[]ANNEE_2_DIGITS[]C])
+define([T_MCOaaD],     [T_MCO[]ANNEE_2_DIGITS[]D])
+define([T_MCOaaUM],    [T_MCO[]ANNEE_2_DIGITS[]UM])
+define([T_MCOaaMED],   [T_MCO[]ANNEE_2_DIGITS[]MED])
+define([T_MCOaaFMSTC], [T_MCO[]ANNEE_2_DIGITS[]FMSTC])
 
 define([T_MCOabA],  [T_MCO[]incr(ANNEE_2_DIGITS)[]A])
 define([T_MCOabB],  [T_MCO[]incr(ANNEE_2_DIGITS)[]B])
