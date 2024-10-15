@@ -19,6 +19,7 @@ system('
 ')
 file.edit("~/sasdata1/sasuser/packages_R_externes/sndsmart.csv")
 ```
++ Le fichier sndsmart.csv est maintenant ouvert (possiblement non vide si ce n'est pas votre première installation, effacez alors son contenu).
 + Copiez/collez dedans le contenu du fichier [`zzz_sndsmart.csv`](https://raw.githubusercontent.com/pietrodito/sndsmart/main/zzz_sndsmart.csv).
 + Puis sauvegardez.
 
