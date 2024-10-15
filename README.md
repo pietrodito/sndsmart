@@ -2,7 +2,7 @@
 
 + Ce package facilite l'accès et le requêtage des données ORACLE sur le SNDS
 
-## Installation Rapide
+## Installation rapide (ou mise à jour)
 + Exécutez le code suivant sur la console :
 + /!\ Attention ce code modifie votre fichier `.Rprofile`
 + Si vous n'avez jamais modifé ce fichier tout devrait bien se passer, sinon lisez l'installation détaillée plus bas. 
