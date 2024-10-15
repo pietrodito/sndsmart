@@ -288,5 +288,5 @@ system("rm sndsmart.zip ~/sasdata1/sasuser/packages_R_externes/sndsmart.csv")
 +
     <p align="center">
       <img alt="Pour installer le package cliquez sur Build puis Install Package"
-           src="./README_images/install.PNG" />
+           src="./README_images/install_success.PNG" />
     </p>
