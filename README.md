@@ -1,5 +1,10 @@
 # sndsmart
 
+  ___ _ __   __| |___ _ __ ___   __ _ _ __| |_     
+ / __| '_ \ / _` / __| '_ ` _ \ / _` | '__| __| 
+ \__ \ | | | (_| \__ \ | | | | | (_| | |  | |
+ |___/_| |_|\__,_|___/_| |_| |_|\__,_|_|  |_|
+
 + Ce package facilite l'accès et le requêtage des données ORACLE sur le SNDS
 
 ## Installation rapide (ou mise à jour)
