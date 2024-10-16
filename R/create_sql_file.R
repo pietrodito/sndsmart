@@ -6,8 +6,11 @@ create_sql_file <- function(filename) {
   if (file.exists(filepath)) {
     cli::cli_alert_warning("Le fichier existe déjà.")
   } else {
+    isPro <- getOption("sndsmart_pro")
+    template_path <- if(!is.null(isPro) && isPro) {
+      "extdata/pro_templates/" } else { "extdata/templates/" }
     file.copy(
-      system.file("extdata/templates/template.sql", package = "sndsmart"),
+      system.file(template_path, "template.sql", package = "sndsmart"),
       filepath)
     cli::cli_alert_info(glue::glue("Fichier {short_filepath} créé."))
     update_sql_orchestration_file(short_filepath)
