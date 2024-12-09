@@ -43,3 +43,7 @@ create_project <- function(project_name, open.project = TRUE, pro = FALSE) {
 
   main()
 }
+
+pro_create_project <- function(project_name) {
+  create_project(project_name, pro = TRUE)
+}

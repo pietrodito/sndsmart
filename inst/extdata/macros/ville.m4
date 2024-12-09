@@ -1,11 +1,11 @@
-define([ville], [dnl
+define([praticiens_ville], [dnl
 
   define([ARG_ANO_PSA],        $1)
   define([ARG_SPE_PRATICIENS], $2)
   define([ARG_DTE_DBT],        $3)
   define([ARG_NB_MOIS],        $4)
   define([ARG_OUT_TBL],        $5)
-  
+
   create_table(ZZ_PRATICIENS)
   select distinct PFS_PFS_NUM
     ,             PFS_PRA_SPE
@@ -15,7 +15,7 @@ define([ville], [dnl
   on              pra.PFS_PRA_SPE = pfs.PFS_SPA_COD
     and           pfs.SELECTION = 1
 /
-  
+
   create_table(ZZ_PRATICIENS_UNIQUE_SPE)
   select a.*
   from   ZZ_PRATICIENS a
@@ -33,7 +33,7 @@ define([ville], [dnl
      ,         prs.BSE_PRS_NAT
      ,         nat.PRS_NAT_LIB
      ,         spe.PFS_SPA_LIB
-   from        ER_PRS_F prs                                  
+   from        ER_PRS_F prs
    inner join  ZZ_PRATICIENS_UNIQUE_SPE spe
      on        spe.PFS_PFS_NUM = prs.PFS_EXE_NUM
      and       prs.FLX_DIS_DTD = '01011900'
@@ -50,7 +50,7 @@ define([ville], [dnl
      ,         prs.BSE_PRS_NAT
      ,         nat.PRS_NAT_LIB
      ,         spe.PFS_SPA_LIB
-   from        ER_PRS_F[]ARC prs                                  
+   from        ER_PRS_F[]ARC prs
    inner join  ZZ_PRATICIENS_UNIQUE_SPE spe
      on        spe.PFS_PFS_NUM = prs.PFS_EXE_NUM
      and       prs.FLX_IDX
@@ -59,5 +59,5 @@ define([ville], [dnl
    inner join IR_NAT_V nat
      on       nat.PRS_NAT = prs.BSE_PRS_NAT
 /
-])   
+])
   ])

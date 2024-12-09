@@ -155,3 +155,14 @@ define([T_RIPaaTP_CTL],      [T_RIP[]ANNEE_2_DIGITS[]TP_CTL])
 define([T_RIPaaTRPT],        [T_RIP[]ANNEE_2_DIGITS[]TRPT])
 define([T_RIPaaTRPT_CTL],    [T_RIP[]ANNEE_2_DIGITS[]TRPT_CTL])
 
+
+define([renomme_lot_si_annee],[dnl
+dnl ----- ARGS
+define([ARG_ANNEE], $1)dnl
+define([ARG_LOT], $2)dnl
+define([ARG_NOM_TABLE],$3)dnl
+dnl ----- CODE
+ifelse(ANNEE, ARG_ANNEE,dnl
+substr(ARG_NOM_TABLE, 0, 5)[]ANNEE_2_DIGITS[]_[]ARG_LOT[]substr(ARG_NOM_TABLE,7,eval(len(ARG_NOM_TABLE)-7)),dnl
+ARG_NOM_TABLE)
+])
