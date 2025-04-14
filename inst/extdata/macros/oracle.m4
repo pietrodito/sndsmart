@@ -117,3 +117,58 @@ dnl * usage:                         *
 dnl * date_oracle('21032015')        *
 dnl **********************************
 define([date_oracle], [to_date($1, 'DDMMYYYY')])
+
+
+
+  define([rec_helper], [
+    define([ARG_FIRST], $1)
+    define([ARG_LAST], $2)
+    define([ARG_PREFIXE], $3)
+
+    ifelse(eval(ARG_FIRST < ARG_LAST), 1, [
+      dnl then
+      define([NEW_FIRST], eval(ARG_FIRST + 1))
+      create_table(ZZZ_TEMP)
+      select * from ARG_PREFIXE
+        union all
+      select * from ARG_PREFIXE[]_[]NEW_FIRST
+/
+
+    create_table(ARG_PREFIXE)
+    select * from ZZZ_TEMP
+
+/
+    rec_helper(NEW_FIRST, ARG_LAST, ARG_PREFIXE)
+    ])
+  ])
+
+dnl **********************************
+dnl * merge_annees                   *
+dnl *--------------------------------*
+dnl *                                *
+dnl *                                *
+dnl *--------------------------------*
+dnl * usage:                         *
+dnl * merge_annees(PREFIXE_TABLE,    *
+dnl *              annee_debut,      *
+dnl *              annee_fin)        *
+dnl **********************************
+define([merge_annees], [
+
+  define([ARG_PREFIXE], $1)
+  define([ARG_AN_DEBUT], $2)
+  define([ARG_AN_FIN], $3)
+
+  create_table(ARG_PREFIXE)
+  select * from ARG_PREFIXE[]_[]ARG_AN_DEBUT
+/
+
+  rec_helper(ARG_AN_DEBUT, ARG_AN_FIN, ARG_PREFIXE)
+
+  forloop([ANNEE], ARG_AN_DEBUT, ARG_AN_FIN, [
+  drop_table(ARG_PREFIXE[]_[]ANNEE)
+  ])
+
+])
+
+

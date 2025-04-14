@@ -239,7 +239,7 @@ print_one_result <- function(result, name) {
 
 present_results <- function(query_results) {
 
-  cli::cli_h1("Rësultats des requêtes")
+  cli::cli_h1("Résultats des requêtes")
 
   if (length(query_results) > 0) {
     names(query_results) <- stringr::str_c("Résultat #",
