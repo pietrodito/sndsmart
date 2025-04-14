@@ -190,6 +190,17 @@ PARISIENS_100ANS
 + Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
 + /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
 
+### Exemple d'utilisation pour mise à jour du package
+```
+mv ~/WinHome/Downloads/*.csv ~/Comp/snds/
+z /home/ulys/Comp/snds
+extract_files_from_csv sndsmart.csv
+cd sndsmart
+git status
+git commit -am "Add version check URL @ pkg startup"
+git push
+```
+
 
 ## Paramètrage de R et RStudio
 
